@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Builder;
 using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
@@ -20,7 +21,9 @@ public class Chargeable : MonoBehaviour {
 
 	[UsedImplicitly]
 	private void Update() {
-		CurrentCharge.Value -= DischargeRate * Time.deltaTime;
+		if (!LevelEditor.Instance.Editing) {
+			CurrentCharge.Value -= DischargeRate * Time.deltaTime;
+		}
 	}
 
 	[UsedImplicitly]

@@ -21,9 +21,9 @@ public class ActorMovement : MonoBehaviour {
 
     [UsedImplicitly]
     private void Update() {
-        _input = _slidingCounter == 0 
-            ? _movement.GetDirection()
-            : _rigidbody.velocity.normalized;
+        _input = _slidingCounter != 0 && _movement.CanSlide
+            ? _rigidbody.velocity.normalized
+            : _movement.GetDirection();
 
         var direction = _input;
         if (direction.sqrMagnitude < 0.25) {

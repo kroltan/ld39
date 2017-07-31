@@ -12,6 +12,7 @@ public class ZoomSpeed : MonoBehaviour {
 
     [UsedImplicitly]
     private void Start() {
+        Target = Target ?? Utils.GetPlayer().GetComponent<Rigidbody>();
         this.AssignComponent(out _camera);
     }
 

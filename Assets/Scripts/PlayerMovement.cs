@@ -6,4 +6,6 @@ public class PlayerMovement : MonoBehaviour, IActorMovementSource {
         0,
         Input.GetAxis("Vertical")
     );
+
+    public bool CanSlide => true;
 }

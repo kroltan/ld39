@@ -1,0 +1,15 @@
+{
+    "Duration": 60,
+    "Size": 7,
+    "AssetList": [
+        "Player", "Cop", "Laptop", "Outlet",
+        "Chair", "DoorVertical", "Garbage", "Plant", "Table",
+        "Asphalt", "Sidewalk",
+        "BlueBlock", "BlueWall",
+        "RedBlock", "RedWall",
+        "WoodBlock", "WoodWall", "WoodWindow",
+        "YellowBlock", "YellowWall"
+    ],
+    "Layers": [
+    ]
+}

@@ -7,6 +7,12 @@ public class FollowSpeed : MonoBehaviour {
     public float ArrivalDistance;
     public float SpeedCutoff = 0.5f;
 
+
+    [UsedImplicitly]
+    private void Start() {
+        Target = Target ?? Utils.GetPlayer().GetComponent<Rigidbody>();
+    }
+
     [UsedImplicitly]
     private void Update() {
         var velocity = Target.velocity;

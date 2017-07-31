@@ -11,7 +11,7 @@ namespace UI {
             var game = GameManager.Instance;
             game.TimeElapsed.Subscribe(elapsed => {
                 var scale = Bar.localScale;
-                scale.x = elapsed / game.LevelDurationSeconds;
+                scale.x = elapsed / game.LevelDurationSeconds.Value;
                 Bar.localScale = scale;
             });
         }

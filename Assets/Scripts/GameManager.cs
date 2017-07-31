@@ -1,11 +1,13 @@
-﻿using JetBrains.Annotations;
+﻿using Builder;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonBehaviour<GameManager> {
     public string GameOverScene;
-    public float LevelDurationSeconds = 60;
+    public ReactiveProperty<float> LevelDurationSeconds = new ReactiveProperty<float>(60);
+    public GameObject[] AllPrefabs;
 
     public string LostLevel { get; private set; }
 
@@ -21,12 +23,21 @@ public class GameManager : SingletonBehaviour<GameManager> {
     [UsedImplicitly]
     private void Start() {
         Play();
+        TimeElapsed
+            .Where(duration => duration >= LevelDurationSeconds.Value)
+            .Subscribe(_ => {
+                Level.Instance.LevelIndex++;
+            });
     }
 
     [UsedImplicitly]
     private void Update() {
+        //Fake no time progress when editing
+        if (LevelEditor.Instance.Editing) {
+            return;
+        }
         if (!LossReason.Value.HasValue) {
-            _endTime.Value = Time.time;
+            _endTime.Value += Time.deltaTime;
         }
     }
 
