@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Actors;
+using UnityEngine;
 
 public static class Utils {
     public const string LevelPrefabsPath = "Assets/Prefabs/Objects";

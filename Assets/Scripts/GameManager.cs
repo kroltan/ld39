@@ -33,7 +33,7 @@ public class GameManager : SingletonBehaviour<GameManager> {
     [UsedImplicitly]
     private void Update() {
         //Fake no time progress when editing
-        if (LevelEditor.Instance.Editing) {
+        if (LevelEditor.Exists && LevelEditor.Instance.Editing) {
             return;
         }
         if (!LossReason.Value.HasValue) {

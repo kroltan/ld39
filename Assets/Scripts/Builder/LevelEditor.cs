@@ -34,6 +34,10 @@ namespace Builder {
                 }
             }
 
+            if (!_editing) {
+                return;
+            }
+
             var camera = Camera.main;
             var ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

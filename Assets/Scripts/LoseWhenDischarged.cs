@@ -4,8 +4,6 @@ using UniRx;
 
 [RequireComponent(typeof(Chargeable))]
 public class LoseWhenDischarged : MonoBehaviour {
-	public string LoseScene;
-
 	[UsedImplicitly]
 	private void Start () {
 		GetComponent<Chargeable>().CurrentCharge

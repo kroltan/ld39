@@ -25,6 +25,8 @@ public class SingletonBehaviour<T> : MonoBehaviour where T: SingletonBehaviour<T
         }
     }
 
+    public static bool Exists => _instance != null;
+
     public bool KeepOnSceneChange = true;
 
     protected virtual void Awake() {
