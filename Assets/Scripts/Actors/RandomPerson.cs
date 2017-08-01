@@ -1,4 +1,5 @@
 ﻿using System;
+using Audio;
 using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Actors {
         }
 
         public SpriteRenderer Renderer;
+        public RandomSound DeathSound;
         public float StepTime = 1;
         private int _variant;
 
@@ -43,6 +45,10 @@ namespace Actors {
 
         public void SetFrame(int frame) {
             Renderer.sprite = AllVariants[_variant].AnimationParts[frame];
+        }
+
+        public void Die() {
+            DeathSound.PlayRandom();
         }
 
         public Vector3 GetDirection() => _hurt ? Vector3.zero : _direction;

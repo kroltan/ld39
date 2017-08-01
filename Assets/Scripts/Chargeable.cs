@@ -4,12 +4,16 @@ using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Chargeable : MonoBehaviour {
 	public FloatReactiveProperty CurrentCharge = new FloatReactiveProperty(0);
 	public FloatReactiveProperty MaximumCharge = new FloatReactiveProperty(1);
 	public float DischargeRate = 0.1f;
 
+	private float _lastFrameCharge;
+
 	private IChargingCondition[] _conditions;
+	private Animator _animator;
 
 	public IObservable<float> PercentCharge => CurrentCharge
 		.CombineLatest(MaximumCharge, (curr, max) => curr / max);
@@ -17,6 +21,12 @@ public class Chargeable : MonoBehaviour {
 	[UsedImplicitly]
 	private void Start() {
 		_conditions = GetComponents<IChargingCondition>();
+		this.AssignComponent(out _animator);
+		_lastFrameCharge = CurrentCharge.Value;
+		Observable.EveryFixedUpdate().Subscribe(_ => {
+			_animator.SetBool("Charging", CurrentCharge.Value > _lastFrameCharge);
+			_lastFrameCharge = CurrentCharge.Value;
+		});
 	}
 
 	[UsedImplicitly]
