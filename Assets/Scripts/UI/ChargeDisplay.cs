@@ -8,12 +8,14 @@ namespace UI {
         public RectTransform Bar;
 
         [UsedImplicitly]
-        private void Start() {
-            Target.PercentCharge.Subscribe(percent => {
-                var scale = Bar.localScale;
-                scale.x = percent;
-                Bar.localScale = scale;
-            });
+        private void Update() {
+            if (Target == null) {
+                Target = Utils.GetPlayer().GetComponent<Chargeable>();
+            }
+            var percent = Target.PercentCharge.Value;
+            var scale = Bar.localScale;
+            scale.x = percent;
+            Bar.localScale = scale;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Builder;
+﻿using System;
+using Builder;
 using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
@@ -12,19 +13,16 @@ public class GameManager : SingletonBehaviour<GameManager> {
     public string LostLevel { get; private set; }
 
     public readonly ReactiveProperty<LossReason?> LossReason = new ReactiveProperty<LossReason?>();
-    private readonly ReactiveProperty<float> _startTime = new FloatReactiveProperty();
-    private readonly ReactiveProperty<float> _endTime = new FloatReactiveProperty();
+    private readonly ReactiveProperty<float> _elapsed = new FloatReactiveProperty();
 
-    public ReadOnlyReactiveProperty<float> TimeElapsed => new ReadOnlyReactiveProperty<float>(
-        _startTime
-            .CombineLatest(_endTime, (start, end) => end - start)
-    );
+    public ReadOnlyReactiveProperty<float> TimeElapsed => _elapsed.ToReadOnlyReactiveProperty();
 
     [UsedImplicitly]
     private void Start() {
         Play();
         TimeElapsed
-            .Where(duration => duration >= LevelDurationSeconds.Value)
+            .Where(elapsed => elapsed >= LevelDurationSeconds.Value)
+            .ThrottleFirst(TimeSpan.FromSeconds(1))
             .Subscribe(_ => {
                 Level.Instance.LevelIndex++;
             });
@@ -37,13 +35,12 @@ public class GameManager : SingletonBehaviour<GameManager> {
             return;
         }
         if (!LossReason.Value.HasValue) {
-            _endTime.Value += Time.deltaTime;
+            _elapsed.Value += Time.deltaTime;
         }
     }
 
     public void Play() {
-        _startTime.Value = 0;
-        _endTime.Value = 0;
+        _elapsed.Value = 0;
         LossReason.Value = null;
     }
 

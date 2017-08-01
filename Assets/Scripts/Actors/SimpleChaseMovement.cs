@@ -19,7 +19,7 @@ namespace Actors {
         public bool CanSlide => true;
 
         [UsedImplicitly]
-        private void Start() {
+        private void Update() {
             if (Target == null) {
                 Target = Utils.GetPlayer().transform;
             }

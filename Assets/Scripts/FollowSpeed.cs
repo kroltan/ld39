@@ -7,14 +7,12 @@ public class FollowSpeed : MonoBehaviour {
     public float ArrivalDistance;
     public float SpeedCutoff = 0.5f;
 
-
-    [UsedImplicitly]
-    private void Start() {
-        Target = Target ?? Utils.GetPlayer().GetComponent<Rigidbody>();
-    }
-
     [UsedImplicitly]
     private void Update() {
+        if (Target == null) {
+            Target = Utils.GetPlayer().GetComponent<Rigidbody>();
+        }
+
         var velocity = Target.velocity;
         if (velocity.sqrMagnitude < SpeedCutoff * SpeedCutoff) {
             velocity = Vector3.zero;

@@ -12,12 +12,14 @@ public class ZoomSpeed : MonoBehaviour {
 
     [UsedImplicitly]
     private void Start() {
-        Target = Target ?? Utils.GetPlayer().GetComponent<Rigidbody>();
         this.AssignComponent(out _camera);
     }
 
     [UsedImplicitly]
     private void Update() {
+        if (Target == null) {
+            Target = Utils.GetPlayer().GetComponent<Rigidbody>();
+        }
         var speed = Target.velocity.magnitude * SpeedFactor;
         var next = Mathf.Lerp(_camera.orthographicSize, MinimumSize + speed, Speed);
         _camera.orthographicSize = next;

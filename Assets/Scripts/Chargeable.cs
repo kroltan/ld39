@@ -15,11 +15,14 @@ public class Chargeable : MonoBehaviour {
 	private IChargingCondition[] _conditions;
 	private Animator _animator;
 
-	public IObservable<float> PercentCharge => CurrentCharge
-		.CombineLatest(MaximumCharge, (curr, max) => curr / max);
+	public ReadOnlyReactiveProperty<float> PercentCharge;
 
 	[UsedImplicitly]
 	private void Start() {
+		PercentCharge = new ReadOnlyReactiveProperty<float>(
+			CurrentCharge.CombineLatest(MaximumCharge, (curr, max) => curr / max)
+		);
+
 		_conditions = GetComponents<IChargingCondition>();
 		this.AssignComponent(out _animator);
 		_lastFrameCharge = CurrentCharge.Value;

@@ -4,7 +4,7 @@ using System.Linq;
 using Builder;
 using JetBrains.Annotations;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using UnityEngine.SceneManagement;
 
 public class Level : SingletonBehaviour<Level> {
     [Serializable]
@@ -31,7 +31,11 @@ public class Level : SingletonBehaviour<Level> {
     public int LevelIndex {
         get { return _levelIndex; }
         set {
-            _levelIndex = value % Levels.Length;
+            if (_levelIndex >= Levels.Length) {
+                SceneManager.LoadScene("menu");
+                return;
+            }
+            _levelIndex = value;
             LoadLevel(Levels[_levelIndex].text);
         }
     }
@@ -70,6 +74,7 @@ public class Level : SingletonBehaviour<Level> {
         }
 
         GameManager.Instance.LevelDurationSeconds.Value = data.Duration;
+        GameManager.Instance.Play();
     }
 
     public GameObject InstantiatePrototype(GameObject prototype, Vector3 position, int layer) {
